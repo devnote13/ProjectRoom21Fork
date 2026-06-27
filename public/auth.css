@@ -1,0 +1,159 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f14;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* box */
+.auth-box {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 12px;
+    width: 320px;
+    text-align: center;
+}
+
+
+/* inputs */
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    outline: none;
+}
+
+/* button */
+.SignUp {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #00ff88;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.SignIn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #00ff88;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* terms */
+.terms {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 5px;
+    opacity: 0.85;
+    text-align: left;
+}
+
+.terms input {
+    width: auto;
+    margin: 0;
+}
+
+/* switch link */
+.switch {
+    margin-top: 12px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.switch a {
+    color: #00ff88;
+    text-decoration: none;
+}
+
+.switch a:hover {
+    text-decoration: underline;
+}
+
+/* hover */
+.SignUp:hover{
+    color: white;
+    background: transparent;
+    outline: 2px solid white;
+}
+
+.SignIn:hover{
+    color: white;
+    background: transparent;
+    outline: 2px solid white;
+}
+
+.auth-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+/* center text perfectly */
+.auth-header h2 {
+    grid-column: 2;
+    margin: 0;
+    text-align: center;
+}
+
+/* LEFT or RIGHT button spacing fix */
+.GobackBtn {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: none; /* removed outline */
+
+    background: transparent;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* hover effect */
+.GobackBtn:hover {
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+    transform: scale(1.08);
+}
+
+/* icon */
+.GobackBtn img {
+    width: 65%;
+    height: 65%;
+}
+
+/* THIS is the important fix 👇 adds breathing room */
+.GobackBtn.left {
+    justify-self: start;
+    margin-left: 8px;
+}
+
+.GobackBtn.right {
+    justify-self: end;
+    margin-right: 8px;
+}
