@@ -45,7 +45,7 @@ body::before{
 
 .TopTitle{
     font-family:"Berkshire Swash", cursive;
-    font-size:56px;
+    font-size:45px;
     cursor: default;
     font-weight:400;
     margin-left:10px;
@@ -55,14 +55,20 @@ body::before{
 /* ================= MENU ================= */
 
 .dot-menu{
-    width:42px;
-    height:42px;
+    width:50px;
+    height:50px;
     border-radius:50%;
     border:none;
     background:rgba(255,255,255,.08);
     color:white;
     cursor:pointer;
     transition: transform 0.3s ease-in-out;
+}
+
+.dot-menu img{
+    margin: 0;
+    width: 50%;
+    height: 50%;
 }
 
 .dot-menu:hover{
@@ -121,13 +127,52 @@ body::before{
 .AddChipBtn:hover{
     background: transparent;
     outline: 2px solid white;
-    transform: rotate(90deg);
 }
 
 .AddChipBtn img{
     padding: auto;
-    width: 55%;
-    height: 55%;
+    width: 50%;
+    height: 50%;
+}
+
+.LogoutBtn{
+    width:32px;
+    height:32px;
+    border:none;
+    background: #3b82f6;
+    border-radius:50%;
+    color:white;
+    cursor:pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.LogoutBtn:hover{
+    background: transparent;
+    outline: 2px solid white;
+}
+
+.LogoutBtn img{
+    padding: auto;
+    width: 50%;
+    height: 50%;
+}
+
+.UsernameDisplay {
+    padding-top: 10px;
+    font-size: 22px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.UserAvatar {
+    width: 50px;
+    height: 50px;
+    padding-bottom: 5px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+.user-profile {
+    gap: 15px;
 }
 
 /* ================= SIGN BUTTONS ================= */
@@ -172,13 +217,12 @@ body::before{
     background:rgba(255,255,255,.1);
 }
 .Chip-label{
-    font-size: 18px;
     font-weight: bold;
-    font-family: "Bitcount Prop Single", 'Times New Roman', Times, serif ;  
+    font-family: Verdana, Geneva, Tahoma, sans-serif, 'Times New Roman', Times, serif;  
     display:flex;
     align-items:center;
     gap:13px; 
-    font-size:24px;
+    font-size:18px;
     font-weight:bold;
     padding:0;
     margin:0;
@@ -666,8 +710,155 @@ body::before{
     text-align: center;
 }
 
+/* =========================
+   SIDE MENU BASE (THINNER)
+========================= */
+
+.side-menu{
+    position: fixed;
+    top: 0;
+    left: -240px;   /* 👈 thinner sidebar */
+    width: 240px;   /* was 270px */
+
+    height: 100vh;
+
+    background: #171d29;
+    border-right: 1px solid rgba(255,255,255,.08);
+
+    display: flex;
+    flex-direction: column;
+
+    transition: left .3s ease;
+    z-index: 9999;
+
+    padding-top: 4px;
+}
+
+/* open */
+.side-menu.show{
+    left: 0;
+}
+
+/* =========================
+   TOP BAR (LOGO LEFT, BUTTON RIGHT)
+========================= */
+
+.menu-top{
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between; /* 👈 pushes logo left, button right */
+
+    padding: 6px 8px;
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* logo (LEFT) */
+.menu-logo img{
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    display: block;
+}
+
+/* go back button (RIGHT) */
+.GobackBtn{
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+}
+
+/* hover */
+.GobackBtn:hover{
+    transform: scale(1.07);
+    box-shadow: 0 0 10px rgba(255,255,255,0.25);
+}
+
+/* icon */
+.GobackBtn img{
+    width: 70%;
+    height: 70%;
+}
+
+/* =========================
+   LINKS (MORE SPACED OUT)
+========================= */
+
+.menu-links{
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px 8px;  /* a bit more breathing room */
+
+    gap: 8px; /* 👈 THIS is the main spacing increase */
+}
+
+.menu-links a{
+    display: flex;
+    align-items: center;
+
+    padding: 12px 14px; /* slightly bigger buttons */
+
+    color: white;
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    transition: 0.15s ease;
+}
+
+/* hover */
+.menu-links a:hover{
+    background: #3b82f6;
+    transform: translateX(5px);
+}
+
+/* divider spacing */
+.menu-divider{
+    height: 1px;
+    margin: 10px 6px; /* more space above/below divider */
+    background: rgba(255,255,255,.08);
+}
+
+/* =========================
+   GLOBAL
+========================= */
+
+.side-menu a,
+.GobackBtn{
+    user-select: none;
+}
+
+.menu-logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+}
+
 .center-classic{
     display:flex;
     justify-content:center;
     align-items:center;
 }
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* space between image and text */
+  }

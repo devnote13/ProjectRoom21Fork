@@ -3,11 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snow Fall Casino</title>
+    <title>Snow Fall</title>
     <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
+
+    <div class="side-menu" id="sideMenu">
+
+        <!-- TOP RIGHT HEADER (BUTTON + LOGO) -->
+        <div class="menu-top">
+    
+            <div class="menu-logo">
+                <img src="favicon.ico" alt="Snow Fall Casino">
+            </div>
+
+            <button class="GobackBtn">
+                <img src="Goback.png" alt="Go back">
+            </button>
+    
+        </div>
+    
+        <!-- LINKS -->
+        <div class="menu-links">
+            <a href="http://localhost:3000/" class="menu-item"><img src="Home.png" width="18" height="18" alt="Home"> Home</a>
+            <a href="#" class="menu-item"><img src="Account.png" width="20" height="20" alt="Your Account"> Account</a>
+            <a href="#" class="menu-item"><img src="PlayAgain.png" width="20" height="20" alt="Play Again"> Play Again</a>
+            <a href="#" class="menu-item"><img src="Note.png" width="20" height="20" alt="My Bets"> My Bets</a>
+            <a href="#" class="menu-item"><img src="Coin2.png" width="20" height="20" alt="Chips"> Chips</a>
+    
+            <div class="menu-divider"></div>
+    
+            <a href="#classics" class="menu-item"><img src="ClassicDimond.png" width="20" height="20" alt="Classics"> Classics</a>
+            <a href="#Hotgames" class="menu-item"><img src="fire.png" width="20" height="20" alt="Hot Games"> Top Trending</a>
+            <a href="#Allgames" class="menu-item"><img src="AllGames.png" width="20" height="20" alt="All Games"> All Games</a>
+        </div>
+    
+    </div>
 
 <div class="content">
 
@@ -15,14 +47,14 @@
     <div class="top-container">
 
         <div class="left-group">
-            <button class="dot-menu">☰</button>
+            <button class="dot-menu" id="menuBtn"><img src="dots-menu.png"></button>
             <h1 class="TopTitle">Snow Fall Casino</h1>
         </div>
 
         <div class="right-group">
 
             <div class="chip-container">
-                <span class="Chip-label"><img src="Coin.png"> 0 CHIPS</span>
+                <span class="Chip-label"><img src="Coin.png"> 0 Chips</span>
                 <button class="AddChipBtn"><img src="plus.png"></button>
             </div>
 
@@ -33,6 +65,19 @@
                 <a href="signin.html">
                 <button class="Signinbtn">Sign In</button>
                 </a>
+            </div>
+
+            <div class="user-profile" style="display:none;">
+    
+                <input type="file" id="avatarInput" accept="image/*" hidden>
+            
+                <span class="UsernameDisplay"></span>
+                
+                <label for="avatarInput" class="avatar-label">
+                    <img class="UserAvatar" src="default.png" alt="Avatar">
+                </label>
+
+                <button class="LogoutBtn"><img src="logout.png" alt="Logout"></button>
             </div>
 
         </div>
@@ -55,11 +100,11 @@
          5,899 Players Online
     </div>
 
-    <div class="divider"></div>
+    <div class="divider" id="Allgames"></div>
 
     <!-- HOT GAMES -->
 
-    <section class="section">
+    <section class="section" id="Hotgames">
 
         <h2 class="sectionheader"><img src="fire.png" width="30" height="30" alt="Hot Games"> Hot Games</h2>
 
@@ -67,7 +112,7 @@
 
             <div class="game-card">
                 <!-- Replace This div with <img src="Youimg.png" class="game-art"> -->
-                <div class="game-art">SLOTS</div>
+                <img src="GameArt/Slots.png" class="game-art">
 
                 <div class="game-info">
 
@@ -85,7 +130,7 @@
             </div>
 
             <div class="game-card">
-                <div class="game-art">MINES</div>
+                <img src="GameArt/Mines.png" class="game-art">
 
                 <div class="game-info">
 
@@ -103,7 +148,7 @@
             </div>
 
             <div class="game-card">
-                <div class="game-art">BLACKJACK</div>
+                <img src="GameArt/Jack.png" class="game-art">
 
                 <div class="game-info">
 
@@ -121,13 +166,13 @@
             </div>
 
             <div class="game-card">
-                <div class="game-art">ROULETTE</div>
+                <img src="GameArt/Roulette.png" class="game-art">
 
                 <div class="game-info">
 
                     <div class="game-text">
                         <h3>Roulette</h3>
-                        <p>Classic</p>
+                        <p>luck</p>
                     </div>
 
                     <div class="live-players">
@@ -137,14 +182,15 @@
 
                 </div>
             </div>
-
         </div>
 
     </section>
+    <div class="divider"></div>
+
 
     <!-- CLASSICS -->
 
-    <section class="section">
+    <section class="section" id="classics">
 
         <h2 class="sectionheader">
             <img src="ClassicDimond.png" width="30" height="30" alt="Classics">
@@ -190,7 +236,7 @@
             </div>
 
             <div class="game-card">
-                <div class="game-art classic">R.P.S.</div>
+                <img src="GameArt/R.P.S.png" class="game-art classic">
 
                 <div class="game-info">
 
@@ -214,7 +260,7 @@
 
                     <div class="game-text">
                         <h3>Spin the Wheel</h3>
-                        <p>Lucky</p>
+                        <p>Luck</p>
                     </div>
 
                     <div class="live-players">
@@ -298,13 +344,14 @@
     </div>
 
     <div class="copyright">
-        © 2020 Snow Fall Casino. All rights reserved.
+        © 2026 Snow Fall Casino. All rights reserved.
     </div>
 
 </div>
     
 </div>
-<script src="main.js"></script>
 
+<script src="auth.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

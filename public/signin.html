@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Snow Fall Casino</title>
+    <title>Sign In - Snow Fall</title>
     <link rel="stylesheet" href="auth.css">
 </head>
 
@@ -13,7 +13,7 @@
 
     <div class="auth-box">
         <div class="auth-header">
-            <a href="http://localhost:3000/main.html">
+            <a href="http://localhost:3000/">
                 <button class="GobackBtn left">
                      <img src="Goback2.png">
                  </button>
@@ -28,11 +28,11 @@
 
         <form>
 
-            <input type="text" placeholder="Username" required>
+            <input type="text" placeholder="Username" class="InUsername">
 
-            <input type="email" placeholder="Email" required>
+            <input type="email" placeholder="Email" class="InEmail">
 
-            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Password" class="InPassword">
 
             <button type="submit" class="SignIn">Sign In</button>
 
@@ -46,5 +46,6 @@
 
 </div>
 
+<script src="auth.js"></script>
 </body>
 </html>

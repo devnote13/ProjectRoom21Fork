@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Snow Fall Casino</title>
+    <title>Sign Up - Snow Fall</title>
     <link rel="stylesheet" href="auth.css">
 </head>
 
@@ -17,7 +17,7 @@
         <div class="auth-header">
 
             <h2>Create Account</h2>
-            <a href="http://localhost:3000/main.html">
+            <a href="http://localhost:3000/">
                 <button class="GobackBtn right">
                     <img src="Goback.png">
                 </button>
@@ -27,16 +27,16 @@
         <!-- FORM -->
         <form>
 
-            <input type="text" placeholder="Username" required>
+            <input type="text" placeholder="Username" class="UsernameIn" required>
 
-            <input type="email" placeholder="Email" required>
+            <input type="email" placeholder="Email" class="EmailIn">
 
-            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Password" class="PasswordIn">
 
-            <input type="password" placeholder="Confirm Password" required>
+            <input type="password" placeholder="Confirm Password" class="ConfirmPassIn">
 
             <label class="terms">
-                <input type="checkbox" required>
+                <input type="checkbox" class="CheckBoxInput">
                 <span>I agree to the Terms of Service</span>
             </label>
 
@@ -51,6 +51,6 @@
     </div>
 
 </div>
-
+<script src="auth.js"></script>
 </body>
 </html>
