@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="main.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Snow Fall Casino</title>
+    <title>Account - Snow Fall</title>
+
+    <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
 
     <div class="side-menu" id="sideMenu">
@@ -26,7 +28,7 @@
         <!-- LINKS -->
         <div class="menu-links">
             <a href="http://localhost:3000/" class="menu-item"><img src="Home.png" width="18" height="18"> Home</a>
-            <a href="account.html" class="menu-item"><img src="Account.png" width="20" height="20"> Account</a>
+            <a href="#" class="menu-item"><img src="Account.png" width="20" height="20"> Account</a>
             <a href="#" class="menu-item"><img src="PlayAgain.png" width="20" height="20"> Play Again</a>
             <a href="#" class="menu-item"><img src="Note.png" width="20" height="20"> My Bets</a>
             <a href="#" class="menu-item"><img src="Coin2.png" width="20" height="20"> Chips</a>
@@ -76,84 +78,67 @@
                     <label for="avatarInput" class="avatar-label">
                         <img class="UserAvatar" src="default.png" alt="Avatar">
                     </label>
-
-                    <button class="LogoutBtn">
-                        <img src="logout.png" alt="Logout">
-                    </button>
                 </div>
 
             </div>
 
         </div>
 
-        <div class="divider"></div>
+<div class="divider"></div>
 
-        <!-- ========================= -->
-        <!--      PRIVACY POLICY      -->
-        <!-- ========================= -->
+<div class="content">
 
-        <div class="policy-container">
+    <div class="account-page">
 
-            <h1>Privacy Policy</h1>
-            <p class="updated">Last updated: July 1, 2026</p>
+        <!-- ================= HEADER (FLUSH) ================= -->
+        <div class="account-header flush">
 
-            <h2>1. Introduction</h2>
-            <p>
-                Welcome to Snow Fall Casino. We respect your privacy and are committed to protecting any information
-                you share while using our platform.
-            </p>
+            <label for="avatarInput" class="avatar-wrapper">
+                <img class="account-avatar" src="default.png" alt="avatar">
+                <input type="file" id="avatarInput" accept="image/*" hidden>
+            </label>
 
-            <h2>2. Information We Collect</h2>
-            <p>
-                We may collect basic account information such as username, email (if provided), and gameplay activity
-                to improve user experience and platform functionality.
-            </p>
+            <div class="account-info">
+                <h3 class="account-name">Guest</h3>
+                <p class="account-email">Not signed in</p>
+            </div>
 
-            <h2>3. How We Use Information</h2>
-            <p>
-                Your information is used to:
-                <br>• Improve game performance
-                <br>• Maintain account security
-                <br>• Provide personalized gameplay experience
-            </p>
-
-            <h2>4. Cookies & Local Storage</h2>
-            <p>
-                We may use cookies or local storage to save preferences such as login state, settings, and game data.
-                These help improve your experience.
-            </p>
-
-            <h2>5. Data Sharing</h2>
-            <p>
-                We do not sell or share your personal data with third parties.
-                Data is only used within Snow Fall Casino systems.
-            </p>
-
-            <h2>6. Security</h2>
-            <p>
-                We take reasonable measures to protect your data, but no system is 100% secure.
-                You are responsible for keeping your account credentials safe.
-            </p>
-
-            <h2>7. Third-Party Services</h2>
-            <p>
-                Some features may rely on external services. These services have their own privacy policies.
-            </p>
-
-            <h2>8. Updates</h2>
-            <p>
-                We may update this Privacy Policy at any time. Continued use of the site means you accept changes.
-            </p>
-
-            <h2>9. Contact</h2>
-            <p>
-                If you have any questions about this Privacy Policy, please contact the site administrator.
-            </p>
+            <button class="logoutBtn">
+                <img src="logout.png" alt="logout">
+            </button>
 
         </div>
 
+        <!-- ================= CHIPS ================= -->
+        <div class="account-stats">
+            Chips: <span class="account-chips">0</span>
+        </div>
+
+        <!-- ================= PROFILE SECTION ================= -->
+        <div class="account-section">
+
+            <h2>Profile</h2>
+
+            <div class="grid">
+
+                <button class="acc-btn">Change Username</button>
+                <button class="acc-btn">Change Email</button>
+                <button class="acc-btn">Change Password</button>
+                <button class="acc-btn">Upload Avatar</button>
+
+            </div>
+
+        </div>
+
+
     </div>
 
-    <script src="main.js"></script>
+</div>
+
+
+<!-- SCRIPTS -->
+<script src="account.js"></script>
+<script src="main.js"></script>
+
 </body>
 </html>

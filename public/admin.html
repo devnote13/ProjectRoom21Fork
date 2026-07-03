@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+
+    <div id="users"></div>
+
+    <script>
+        async function loadUsers() {
+
+            const token = localStorage.getItem("token");
+
+            const res = await fetch("/admin", {
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            });
+
+            const data = await res.json();
+
+            if (!data.success) {
+                document.body.innerHTML = "Access denied";
+                return;
+            }
+
+            const container = document.getElementById("users");
+
+            container.innerHTML = data.users.map(u => `
+                <div style="padding:10px;border:1px solid #ccc;margin:5px;">
+                    <b>${u.username}</b><br>
+                    ${u.email}<br>
+                    Chips: ${u.chips}<br>
+                    Role: ${u.role}
+                </div>
+            `).join("");
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>

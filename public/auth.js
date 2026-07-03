@@ -1,45 +1,64 @@
+const API = "http://localhost:3000";
+
+function getToken() {
+    return localStorage.getItem("token");
+}
 
 // ===============================
-// SNOWFALL AUTH + LOBBY + AVATAR SYSTEM
+// GLOBAL UI SYNC (INDEX + ALL PAGES)
 // ===============================
+async function updateLobbyUI() {
 
-const regex = /^[a-zA-Z0-9]+$/;
-
-// ===============================
-// LOBBY UI (RUN ON MAIN PAGE)
-// ===============================
-window.addEventListener("load", () => {
-
-    const user = localStorage.getItem("username");
-    const avatar = localStorage.getItem("avatar");
+    const token = getToken();
 
     const signBtns = document.querySelector(".signbtns");
     const profile = document.querySelector(".user-profile");
     const name = document.querySelector(".UsernameDisplay");
     const avatarImg = document.querySelector(".UserAvatar");
 
-    if (user) {
-        if (signBtns) signBtns.style.display = "none";
-        if (profile) profile.style.display = "flex";
-        if (name) name.textContent = user;
-    } else {
+    if (!token) {
         if (signBtns) signBtns.style.display = "flex";
         if (profile) profile.style.display = "none";
+        return;
     }
 
-    if (avatar && avatarImg) {
-        avatarImg.src = avatar;
+    try {
+        const res = await fetch(`${API}/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            localStorage.removeItem("token");
+            return;
+        }
+
+        const user = data.user;
+
+        if (signBtns) signBtns.style.display = "none";
+        if (profile) profile.style.display = "flex";
+
+        if (name) name.textContent = user.username;
+
+        // avatar
+        const avatar = localStorage.getItem("avatar") || "default.png";
+        if (avatarImg) avatarImg.src = avatar;
+
+    } catch (err) {
+        console.error("Lobby error:", err);
     }
-});
+}
+
+window.addEventListener("load", updateLobbyUI);
 
 // ===============================
-// SIGN UP PAGE
+// SIGN UP
 // ===============================
-if (document.querySelector(".UsernameIn")) {
+const signUpBtn = document.querySelector(".SignUp");
 
-    const SignUpBtn = document.querySelector(".SignUp");
-
-    SignUpBtn?.addEventListener("click", (e) => {
+if (signUpBtn) {
+    signUpBtn.addEventListener("click", async (e) => {
         e.preventDefault();
 
         const username = document.querySelector(".UsernameIn")?.value?.trim();
@@ -49,88 +68,73 @@ if (document.querySelector(".UsernameIn")) {
         const checkbox = document.querySelector(".CheckBoxInput");
 
         if (!checkbox?.checked) return alert("Agree to Terms");
-
-        if (!username) return alert("Missing username");
-        if (username.length < 4) return alert("Min 4 characters");
-        if (username.length > 20) return alert("Max 20 characters");
-        if (!regex.test(username)) return alert("Only letters & numbers");
-
-        if (!email || !email.includes("@")) return alert("Invalid email");
-
-        if (!password || password.length < 8) return alert("Password too short");
-        if (!regex.test(password)) return alert("Only letters & numbers");
-
+        if (!username || !email || !password) return alert("Missing fields");
         if (password !== confirm) return alert("Passwords do not match");
 
-        localStorage.setItem("username", username);
+        const res = await fetch(`${API}/signup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email, password })
+        });
 
-        window.location.href = "index.html";
+        const data = await res.json();
+
+        if (!data.success) return alert(data.message || "Signup failed");
+
+        alert("Account created. Please sign in.");
+        window.location.href = "signin.html";
     });
 }
 
 // ===============================
-// SIGN IN PAGE
+// SIGN IN (FIXED - GLOBAL LOGIN)
 // ===============================
-if (document.querySelector(".InUsername")) {
+const signInBtn = document.querySelector(".SignIn");
 
-    const SignInBtn = document.querySelector(".SignIn");
-
-    SignInBtn?.addEventListener("click", (e) => {
+if (signInBtn) {
+    signInBtn.addEventListener("click", async (e) => {
         e.preventDefault();
 
         const username = document.querySelector(".InUsername")?.value?.trim();
-        const email = document.querySelector(".InEmail")?.value?.trim();
         const password = document.querySelector(".InPassword")?.value?.trim();
 
-        if (!username || !email || !password) {
-            return alert("Missing fields");
-        }
+        if (!username || !password) return alert("Missing fields");
 
-        localStorage.setItem("username", username);
+        const res = await fetch(`${API}/signin`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) return alert(data.message);
+
+        // ONLY TOKEN STORED
+        localStorage.setItem("token", data.token);
 
         window.location.href = "index.html";
     });
 }
 
 // ===============================
-// LOGOUT
+// LOGOUT (FULL RESET)
 // ===============================
-const LogoutBtn = document.querySelector(".LogoutBtn");
+document.addEventListener("click", (e) => {
 
-if (LogoutBtn) {
-    LogoutBtn.addEventListener("click", () => {
+    const btn = e.target.closest(".LogoutBtn");
+    if (!btn) return;
 
-        localStorage.removeItem("username");
-        localStorage.removeItem("avatar");
+    localStorage.clear();
 
-        const signBtns = document.querySelector(".signbtns");
-        const profile = document.querySelector(".user-profile");
-        const name = document.querySelector(".UsernameDisplay");
-
-        if (signBtns) signBtns.style.display = "flex";
-        if (profile) profile.style.display = "none";
-        if (name) name.textContent = "";
-
-        console.log("Logged out");
-    });
-}
-
-// ===============================
-// AVATAR SYSTEM (CLICK IMAGE TO UPLOAD)
-// ===============================
-const avatarInput = document.querySelector("#avatarInput");
-const avatarImg = document.querySelector(".UserAvatar");
-
-// load saved avatar
-window.addEventListener("load", () => {
-    const savedAvatar = localStorage.getItem("avatar");
-
-    if (savedAvatar && avatarImg) {
-        avatarImg.src = savedAvatar;
-    }
+    window.location.href = "index.html";
 });
 
-// change avatar
+// ===============================
+// AVATAR (GLOBAL VISUAL ONLY)
+// ===============================
+const avatarInput = document.querySelector("#avatarInput");
+
 if (avatarInput) {
     avatarInput.addEventListener("change", (e) => {
 
@@ -139,14 +143,14 @@ if (avatarInput) {
 
         const reader = new FileReader();
 
-        reader.onload = function (event) {
-            const imgData = event.target.result;
+        reader.onload = () => {
+            const img = reader.result;
 
-            if (avatarImg) {
-                avatarImg.src = imgData;
-            }
+            localStorage.setItem("avatar", img);
 
-            localStorage.setItem("avatar", imgData);
+            document.querySelectorAll(".UserAvatar").forEach(el => {
+                el.src = img;
+            });
         };
 
         reader.readAsDataURL(file);

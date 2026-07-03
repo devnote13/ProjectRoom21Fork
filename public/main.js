@@ -1,5 +1,10 @@
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
+const searchForm = document.querySelector(".Search-form");
+const searchInput = document.querySelector(".search-input");
+const searchBtn = document.querySelector(".searchbtn");
+
+
 const MAX_ROWS = 10;
 
 // -------------------------------
@@ -177,6 +182,7 @@ function UpdateRandomPlayerCount() {
     setTimeout(UpdateRandomPlayerCount, wait);
 }
 
+
 // -----------------------------
 //          START
 // -----------------------------
@@ -221,4 +227,54 @@ document.addEventListener("keydown", function (e) {
 
 document.querySelector(".GobackBtn").addEventListener("click", () => {
     sideMenu.classList.remove("show");
+});
+
+
+function runSearch() {
+
+    const search = searchInput.value.trim().toLowerCase();
+    const cards = document.querySelectorAll(".game-card");
+
+    let firstMatch = null;
+
+    cards.forEach(card => {
+
+        const title = card.querySelector("h3");
+        if (!title) return;
+
+        const name = title.textContent.toLowerCase();
+
+        const match = name.includes(search);
+
+        card.style.display = match ? "" : "none";
+
+        if (match && !firstMatch) {
+            firstMatch = card;
+        }
+    });
+
+    // reset
+    if (search === "") {
+        cards.forEach(card => card.style.display = "");
+        return;
+    }
+
+    // scroll to first match
+    if (firstMatch) {
+        firstMatch.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+}
+
+// INPUT typing search
+searchInput.addEventListener("input", runSearch);
+
+// BUTTON click search
+searchBtn.addEventListener("click", runSearch);
+
+// STOP FORM REFRESH (extra safety)
+searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 });
