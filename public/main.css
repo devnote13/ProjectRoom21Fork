@@ -1067,3 +1067,246 @@ body::before{
         grid-template-columns: 1fr;
     }
 }
+
+/* =======================================
+   CHIPS PAGE
+======================================= */
+
+.chips-page{
+    width:1200px;
+    margin:60px auto;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:40px;
+}
+
+/* =======================================
+   CARD
+======================================= */
+
+.chips-card{
+    width:520px;
+    background:#1b2235;
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+/* =======================================
+   TITLE
+======================================= */
+
+.chips-title{
+    font-family:"Berkshire Swash",cursive;
+    font-size:42px;
+    color:white;
+    margin:0;
+    margin-bottom:30px;
+}
+
+/* =======================================
+   TEXT
+======================================= */
+
+.chips-card h2{
+    color:white;
+    font-family:Verdana,sans-serif;
+    margin-bottom:20px;
+}
+
+.chip-rate{
+    color:#c9d3e5;
+    font-size:20px;
+    font-family:Verdana,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+/* =======================================
+   INPUT
+======================================= */
+
+.chip-input{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#29344d;
+    color:white;
+    font-size:18px;
+    text-align:center;
+    font-family:Verdana,sans-serif;
+    outline:none;
+    margin-bottom:25px;
+}
+
+.chip-input::placeholder{
+    color:#c2c2c2;
+}
+
+/* =======================================
+   MAIN BUTTON
+======================================= */
+
+.chip-action-btn{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#3d8bfd;
+    color:white;
+    font-size:18px;
+    font-family:Verdana,sans-serif;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.chip-action-btn:hover{
+    background:#61a4ff;
+}
+
+/* =======================================
+   PAYMENT OPTIONS
+======================================= */
+
+.payment-options,
+.withdraw-options{
+    margin-top:25px;
+}
+
+.payment-btn{
+    width:100%;
+    height:65px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+
+    margin-bottom:18px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-family:Verdana,sans-serif;
+    font-size:19px;
+    font-weight:bold;
+
+    color:white;
+
+    transition:.25s;
+}
+
+/* =======================================
+   BITCOIN
+======================================= */
+
+.bitcoin{
+    background:#F7931A;
+}
+
+.bitcoin:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(247,147,26,.4);
+}
+
+/* =======================================
+   ETHEREUM
+======================================= */
+
+.ethereum{
+    background:#4d5dfb;
+}
+
+.ethereum:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(77,93,251,.35);
+}
+
+/* =======================================
+   LITECOIN
+======================================= */
+
+.litecoin{
+    background:#8b8b8b;
+}
+
+.litecoin:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(255,255,255,.25);
+}
+
+/* =======================================
+   BUTTON PRESS
+======================================= */
+
+.payment-btn:active,
+.chip-action-btn:active{
+    transform:scale(.98);
+}
+
+/* =======================================
+   PAYMENT ICONS
+======================================= */
+
+.payment-btn img{
+    width:30px;
+    height:30px;
+}
+
+/* =======================================
+   ANIMATION
+======================================= */
+
+.payment-options,
+.withdraw-options{
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.payment-summary{
+    color:white;
+    font-family:Verdana,sans-serif;
+    margin-bottom:25px;
+    line-height:1.7;
+    font-size:18px;
+}
+
+.back-btn{
+    width:100%;
+    height:55px;
+    margin-top:10px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:17px;
+    font-family:Verdana,sans-serif;
+    background:#444;
+    color:white;
+    transition:.2s;
+}
+
+.back-btn:hover{
+    background:#5a5a5a;
+}

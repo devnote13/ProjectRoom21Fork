@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Purchase / Withdraw Chips - Snow Fall Casino</title>
+
+    <link rel="stylesheet" href="main.css">
+
+    <!-- Berkshire Swash -->
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- SIDE MENU -->
+    <!-- ========================= -->
+
+    <div class="side-menu" id="sideMenu">
+
+        <div class="menu-top">
+
+            <div class="menu-logo">
+                <img src="favicon.ico" alt="Snow Fall Casino">
+            </div>
+
+            <button class="GobackBtn">
+                <img src="Goback.png" alt="Go Back">
+            </button>
+
+        </div>
+
+        <div class="menu-links">
+
+            <a href="http://localhost:3000/" class="menu-item">
+                <img src="Home.png" width="18" height="18">
+                Home
+            </a>
+
+            <a href="account.html" class="menu-item">
+                <img src="Account.png" width="20" height="20">
+                Account
+            </a>
+
+            <a href="PlayAgain.html" class="menu-item">
+                <img src="PlayAgain.png" width="20" height="20">
+                Play Again
+            </a>
+
+            <a href="MyBets.html" class="menu-item">
+                <img src="Note.png" width="20" height="20">
+                My Bets
+            </a>
+
+            <a href="chips.html" class="menu-item">
+                <img src="Coin2.png" width="20" height="20">
+                Chips
+            </a>
+
+            <div class="menu-divider"></div>
+
+            <a href="index.html#classics" class="menu-item">
+                <img src="ClassicDimond.png" width="20" height="20">
+                Classics
+            </a>
+
+            <a href="index.html#Hotgames" class="menu-item">
+                <img src="fire.png" width="20" height="20">
+                Top Trending
+            </a>
+
+            <a href="index.html#Allgames" class="menu-item">
+                <img src="AllGames.png" width="20" height="20">
+                All Games
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- PAGE -->
+    <!-- ========================= -->
+
+    <div class="content">
+
+        <!-- TOP BAR -->
+
+        <div class="top-container">
+
+            <div class="left-group">
+
+                <button class="dot-menu" id="menuBtn">
+                    <img src="dots-menu.png">
+                </button>
+
+                <h1 class="TopTitle">
+                    Snow Fall Casino
+                </h1>
+
+            </div>
+
+            <div class="right-group">
+
+                <div class="chip-container">
+
+                    <span class="Chip-label">
+                        <img src="Coin.png">
+                        0 Chips
+                    </span>
+
+                    <button class="AddChipBtn">
+                        <img src="plus.png">
+                    </button>
+
+                </div>
+
+                <div class="signbtns">
+
+                    <a href="signup.html">
+                        <button class="Signupbtn">
+                            Sign Up
+                        </button>
+                    </a>
+
+                    <a href="signin.html">
+                        <button class="Signinbtn">
+                            Sign In
+                        </button>
+                    </a>
+
+                </div>
+
+                <div class="user-profile" style="display:none;">
+
+                    <input type="file" id="avatarInput" accept="image/*" hidden>
+
+                    <span class="UsernameDisplay"></span>
+
+                    <label for="avatarInput" class="avatar-label">
+
+                        <img class="UserAvatar"
+                             src="default.png"
+                             alt="Avatar">
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ========================= -->
+        <!-- CHIP PAGE -->
+        <!-- ========================= -->
+
+        <div class="chips-page">
+
+            <!-- ================= PURCHASE ================= -->
+
+            <section class="chips-card">
+
+                <h1 class="chips-title">
+                    Purchase Chips
+                </h1>
+
+                <div class="purchase-form">
+
+                    <p class="chip-rate">
+                        <img src="Coin.png" width="22">
+                        1 Chip = $1.00 USD
+                    </p>
+
+                    <input
+                        type="text"
+                        id="purchaseAmount"
+                        class="chip-input"
+                        placeholder="How many chips would you like to purchase?">
+
+                    <button
+                        id="purchaseBtn"
+                        class="chip-action-btn">
+
+                        Move to Payment
+
+                    </button>
+
+                </div>
+
+                <!-- PAYMENT OPTIONS -->
+
+                <div
+                    class="payment-options"
+                    style="display:none;">
+
+                    <h2>
+
+                        Choose Payment Method
+
+                    </h2>
+
+                    <button class="payment-btn bitcoin">
+
+                        <img src="Bitcoin.png" width="26">
+
+                        Bitcoin
+
+                    </button>
+
+                    <button class="payment-btn ethereum">
+
+                        <img src="Ethereum.png" width="26">
+
+                        Ethereum
+
+                    </button>
+
+                    <button class="payment-btn litecoin">
+
+                        <img src="Litecoin.png" width="26">
+
+                        Litecoin
+
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- ================= WITHDRAW ================= -->
+
+            <section class="chips-card">
+
+                <h1 class="chips-title">
+
+                    Withdraw Chips
+
+                </h1>
+
+                <div class="withdraw-form">
+
+                    <p class="chip-rate">
+
+                        <img src="Coin.png" width="22">
+
+                        Minimum withdrawal: 50 Chips
+
+                    </p>
+
+                    <input
+                        type="text"
+                        id="withdrawAmount"
+                        class="chip-input"
+                        placeholder="How many chips would you like to withdraw?">
+
+                    <button
+                        id="withdrawBtn"
+                        class="chip-action-btn">
+
+                        Withdraw Chips
+
+                    </button>
+
+                </div>
+
+                <!-- WITHDRAW OPTIONS -->
+
+                <div
+                    class="withdraw-options"
+                    style="display:none;">
+
+                    <h2>
+
+                        Choose Withdrawal Method
+
+                    </h2>
+
+                    <button class="payment-btn bitcoin">
+
+                        <img src="bitcoin.png" width="26">
+
+                        Bitcoin
+
+                    </button>
+
+                    <button class="payment-btn ethereum">
+
+                        <img src="ethereum.png" width="26">
+
+                        Ethereum
+
+                    </button>
+
+                    <button class="payment-btn litecoin">
+
+                        <img src="litecoin.png" width="26">
+
+                        Litecoin
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================= -->
+
+    <script src="account.js"></script>
+    <script src="main.js"></script>
+    <script src="Chips.js"></script>
+
+</body>
+
+</html>

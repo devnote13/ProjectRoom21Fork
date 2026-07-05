@@ -172,22 +172,6 @@ app.post("/update-profile", authenticateToken, async (req: any, res) => {
     res.json({ success: true });
 });
 
-
-// =============================
-// SET CHIPS (FOR GAMES LATER)
-// =============================
-app.post("/set-chips", authenticateToken, async (req: any, res) => {
-
-    const { amount } = req.body;
-
-    await supabase
-        .from("users")
-        .update({ chips: amount })
-        .eq("id", req.user.id);
-
-    res.json({ success: true });
-});
-
 // =============================
 // ADMIN PANEL API
 // =============================
