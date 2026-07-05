@@ -108,7 +108,15 @@ if (signInBtn) {
 
         const data = await res.json();
 
-        if (!data.success) return alert(data.message);
+        if (!data.success) {
+            if (data.message === "Your account is banned") {
+                alert("🚫 Your account is banned");
+            } else {
+                alert(data.message || "Login failed");
+            }
+            return;
+        }
+
 
         // ONLY TOKEN STORED
         localStorage.setItem("token", data.token);
