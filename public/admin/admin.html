@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>🔥 Casino Admin Dashboard</title>
+    <link rel="stylesheet" href="http://localhost:3000/admin/style.css">
+</head>
+
+<body>
+
+<h1 class="title">🔥 Casino Admin Dashboard</h1>
+
+<div class="stats">
+    <div class="stat">👤 Users: <span id="totalUsers">0</span></div>
+    <div class="stat">💰 Chips: <span id="totalChips">0</span></div>
+    <div class="stat">💸 Withdrawn: <span id="totalWithdrawn">0</span></div>
+    <div class="stat profit">📈 Profit: <span id="profit">0</span></div>
+</div>
+
+<div class="controls">
+    <input id="searchInput" placeholder="Search user..." />
+    
+    <select id="sortSelect">
+        <option value="chips">Sort by Chips</option>
+        <option value="username">Sort by Username</option>
+    </select>
+
+    <button onclick="refresh()">Refresh</button>
+</div>
+
+<div class="grid">
+
+    <div class="panel">
+        <h2>👤 Users</h2>
+        <div id="users"></div>
+    </div>
+
+    <div class="panel">
+        <h2>💸 Withdraw Requests</h2>
+        <div id="withdraws"></div>
+    </div>
+
+    <div class="panel">
+        <h2>🏆 Top Players</h2>
+        <div id="leaderboard"></div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    
+    const API = "http://localhost:3000";
+    const token = localStorage.getItem("adminToken");
+    
+    if (!token) {
+        window.location.href = `${API}/admin/admin-login.html`;
+    }
+    
+    /* ================= VERIFY ADMIN ================= */
+    async function verifyAdmin() {
+        try {
+            const res = await fetch(`${API}/me`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            });
+    
+            const data = await res.json();
+    
+            if (!data.success || data.user.role !== "admin") {
+                alert("Admin only");
+                window.location.href = "/";
+            }
+    
+        } catch (err) {
+            console.error("Auth error", err);
+            window.location.href = "/signin.html";
+        }
+    }
+    
+    verifyAdmin();
+    
+    /* ================= SAFE FETCH ================= */
+    async function authFetch(url, options = {}) {
+        try {
+            const res = await fetch(url, {
+                method: options.method || "GET",
+                body: options.body,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                    ...(options.headers || {})
+                }
+            });
+
+            const text = await res.text();
+
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch {
+                console.error("NON-JSON RESPONSE:", text);
+                return null;
+            }
+
+            if (res.status === 401 || res.status === 403) {
+                alert("No access / session expired");
+                window.location.href = "/admin/admin-login.html";
+                return null;
+            }
+
+            return data;
+
+        } catch (err) {
+            console.error("FETCH ERROR:", err);
+            return null;
+        }
+    }
+    
+    /* ================= LOAD STATS ================= */
+    async function loadStats() {
+        const data = await authFetch(`${API}/admin/stats`);
+        if (!data?.success) return;
+    
+        document.getElementById("totalUsers").textContent = data.stats?.totalUsers ?? 0;
+        document.getElementById("totalChips").textContent = data.stats?.totalChips ?? 0;
+        document.getElementById("totalWithdrawn").textContent = data.stats?.totalWithdrawn ?? 0;
+        document.getElementById("profit").textContent = data.stats?.profit ?? 0;
+    }
+    
+    /* ================= USERS ================= */
+    async function loadUsers() {
+    
+        const search = document.getElementById("searchInput")?.value || "";
+        const sort = document.getElementById("sortSelect")?.value || "chips";
+    
+        const data = await authFetch(`${API}/admin?search=${search}&sort=${sort}`);
+        if (!data?.success) return;
+    
+        const users = data.users || [];
+        const usersEl = document.getElementById("users");
+    
+        if (!usersEl) return;
+    
+        usersEl.innerHTML = users.map(u => `
+            <div class="card ${u.banned ? "banned" : ""}">
+                <b>${u.username}</b><br>
+                ${u.email}<br>
+                💰 ${u.chips}<br>
+                Role: ${u.role || "user"}
+    
+                <div>
+                    ${u.banned
+                        ? `<button onclick="unban('${u.id}')">Unban</button>`
+                        : `<button onclick="ban('${u.id}')">Ban</button>`
+                    }
+                </div>
+            </div>
+        `).join("");
+    }
+    
+    /* ================= WITHDRAWS ================= */
+    async function loadWithdraws() {
+    
+        const data = await authFetch(`${API}/admin/withdraws`);
+        if (!data?.success) return;
+    
+        const reqs = data.requests || [];
+        const el = document.getElementById("withdraws");
+    
+        if (!el) return;
+    
+        el.innerHTML = reqs.map(r => `
+            <div class="card">
+                <b>${r.username}</b><br>
+                💸 ${r.amount}<br>
+                Status: ${r.status}
+    
+                ${r.status === "pending" ? `
+                    <div>
+                        <button onclick="approve('${r.username}')">Approve</button>
+                        <button onclick="reject('${r.username}')">Reject</button>
+                    </div>
+                ` : ""}
+            </div>
+        `).join("");
+    }
+    
+    /* ================= LEADERBOARD ================= */
+    async function loadLeaderboard() {
+    
+        const data = await authFetch(`${API}/admin`);
+        if (!data?.success) return;
+    
+        const users = (data.users || [])
+            .sort((a, b) => (b.chips || 0) - (a.chips || 0))
+            .slice(0, 10);
+    
+        const el = document.getElementById("leaderboard");
+        if (!el) return;
+    
+        el.innerHTML = users.map((u, i) => `
+            <div class="card">
+                #${i + 1} ${u.username} - ${u.chips}
+            </div>
+        `).join("");
+    }
+    
+    /* ================= ACTIONS ================= */
+    async function ban(userId) {
+        await authFetch(`${API}/admin/ban-user`, {
+            method: "POST",
+            body: JSON.stringify({ userId })
+        });
+    
+        refresh();
+    }
+    
+    async function unban(userId) {
+        await authFetch(`${API}/admin/unban-user`, {
+            method: "POST",
+            body: JSON.stringify({ userId })
+        });
+    
+        refresh();
+    }
+
+    window.ban = ban;
+    window.unban = unban;
+    
+    async function approve(username) {
+        await authFetch(`${API}/admin/withdraw/approve-user`, {
+            method: "POST",
+            body: JSON.stringify({ username })
+        });
+    
+        refresh();
+    }
+    
+    async function reject(username) {
+        await authFetch(`${API}/admin/withdraw/reject-user`, {
+            method: "POST",
+            body: JSON.stringify({ username })
+        });
+    
+        refresh();
+    }
+    
+    /* ================= REFRESH ================= */
+    let running = false;
+    
+    async function refresh() {
+        if (running) return;
+        running = true;
+    
+        console.log("REFRESH CLICKED");
+    
+        try {
+            await loadStats();
+            await loadUsers();
+            await loadWithdraws();
+            await loadLeaderboard();
+    
+            console.log("REFRESH DONE");
+    
+        } catch (err) {
+            console.error("REFRESH ERROR:", err);
+        }
+    
+        running = false;
+    }
+    
+    /* ================= EVENTS ================= */
+    document.getElementById("searchInput")?.addEventListener("input", refresh);
+    document.getElementById("sortSelect")?.addEventListener("change", refresh);
+    
+    /* ================= START ================= */
+    refresh();
+    setInterval(refresh, 5000);
+    
+    });
+    </script>
+
+</body>
+</html>

@@ -26,21 +26,30 @@ type JwtUser = {
 // =============================
 // AUTH
 // =============================
-function authenticateToken(
-    req: Request & { user?: JwtUser },
-    res: Response,
-    next: NextFunction
-) {
-    const token = req.headers.authorization?.split(" ")[1];
+function authenticateToken(req: any, res: any, next: any) {
+    const header = req.headers.authorization;
 
-    if (!token) {
+    if (!header) {
         return res.status(401).json({ success: false, message: "No token" });
     }
 
+    const token = header.split(" ")[1];
+
     try {
-        req.user = jwt.verify(token, JWT_SECRET) as JwtUser;
+        const decoded: any = jwt.verify(token, JWT_SECRET);
+
+        if (!decoded?.id) {
+            return res.status(403).json({ success: false, message: "Invalid token payload" });
+        }
+
+        req.user = {
+            id: decoded.id,
+            username: decoded.username || null,
+        };
+
         next();
-    } catch {
+
+    } catch (err) {
         return res.status(403).json({ success: false, message: "Invalid token" });
     }
 }
@@ -48,18 +57,29 @@ function authenticateToken(
 // =============================
 // ADMIN CHECK (DB SAFE)
 // =============================
-async function requireAdmin(req: any, res: Response, next: NextFunction) {
-    const { data } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", req.user.id)
-        .single();
+function requireAdmin(req: any, res: any, next: any) {
 
-    if (!data || data.role !== "admin") {
-        return res.status(403).json({ success: false, message: "Admin only" });
+    const header = req.headers.authorization;
+
+    if (!header) {
+        return res.status(401).json({ success: false, message: "No token" });
     }
 
-    next();
+    const token = header.split(" ")[1];
+
+    try {
+        const decoded: any = jwt.verify(token, JWT_SECRET);
+
+        if (decoded.role !== "admin") {
+            return res.status(403).json({ success: false, message: "Admins only" });
+        }
+
+        req.user = decoded;
+        next();
+
+    } catch {
+        return res.status(403).json({ success: false, message: "Invalid token" });
+    }
 }
 
 // =============================
@@ -127,6 +147,50 @@ app.post("/signin", async (req, res) => {
     });
 });
 
+app.post("/admin-login", async (req, res) => {
+
+    const { username, password } = req.body;
+
+    const { data: user } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", username)
+        .single();
+
+    if (!user) {
+        return res.json({ success: false, message: "User not found" });
+    }
+
+    // must be admin
+    if (user.role !== "admin") {
+        return res.json({ success: false, message: "Not admin" });
+    }
+
+    // check password
+    const ok = await bcrypt.compare(password, user.password);
+
+    if (!ok) {
+        return res.json({ success: false, message: "Wrong password" });
+    }
+
+    // issue ADMIN SESSION TOKEN
+    const token = jwt.sign(
+        {
+            id: user.id,
+            role: "admin"
+        },
+        JWT_SECRET,
+        { expiresIn: "2h" }
+    );
+
+    res.json({
+        success: true,
+        token
+    });
+});
+
+
+
 // =============================
 // ME
 // =============================
@@ -187,6 +251,12 @@ app.get("/admin", authenticateToken, requireAdmin, async (req: any, res) => {
     const { data } = await query;
 
     res.json({ success: true, users: data });
+});
+
+app.get("/admin-panel", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "../public/admin/admin.html")
+    );
 });
 
 // =============================
@@ -315,6 +385,75 @@ app.get("/admin/stats", authenticateToken, requireAdmin, async (req, res) => {
             totalWithdrawn,
             profit
         }
+    });
+});
+
+app.post("/last-played", authenticateToken, async (req, res) => {
+
+    const { gameId } = req.body;
+
+    if (!gameId) return res.json({ success: false });
+
+    const { error } = await supabase
+        .from("game_history")
+        .insert({
+            user_id: (req as any).user.id,
+            game_id: gameId,
+            played_at: new Date().toISOString()
+        });
+
+    if (error) {
+        return res.json({ success: false, message: error.message });
+    }
+
+    res.json({ success: true });
+});
+
+app.get("/last-played", authenticateToken, async (req, res) => {
+
+    const { data, error } = await supabase
+        .from("game_history")
+        .select("*")
+        .eq("user_id", (req as any).user.id)
+        .order("played_at", { ascending: false })
+        .limit(5);
+
+    if (error) {
+        return res.json({ success: false });
+    }
+
+    const gameIds = data.map(g => g.game_id);
+
+    const { data: games } = await supabase
+        .from("games")
+        .select("*")
+        .in("id", gameIds);
+
+    res.json({
+        success: true,
+        games
+    });
+});
+
+app.get("/my-bets", authenticateToken, async (req, res) => {
+
+    const { data, error } = await supabase
+        .from("bets")
+        .select("*")
+        .eq("user_id", (req as any).user.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+    if (error) {
+        return res.json({
+            success: false,
+            message: error.message
+        });
+    }
+
+    res.json({
+        success: true,
+        bets: data
     });
 });
 

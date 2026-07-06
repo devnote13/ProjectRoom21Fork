@@ -1,9 +1,9 @@
+console.log("GAME JS LOADED");
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 const searchForm = document.querySelector(".Search-form");
 const searchInput = document.querySelector(".search-input");
 const searchBtn = document.querySelector(".searchbtn");
-
 
 const MAX_ROWS = 10;
 
@@ -266,6 +266,49 @@ function runSearch() {
             block: "center"
         });
     }
+}
+
+async function playGame(gameId) {
+
+    const token = localStorage.getItem("token");
+
+    // default routes (cleaner than switch-case long term)
+    const routes = {
+        1: "Games/blackjack.html",
+        2: "Games/roulette.html",
+        3: "Games/plinko.html",
+        4: "Games/coinflip.html",
+        5: "Games/R.P.S.html",
+        6: "Games/S.T.W.html",
+        7: "Games/mines.html",
+        8: "Games/slots.html"
+    };
+
+    // save last played (don’t block navigation if it fails)
+    if (token) {
+        fetch(`${API}/last-played`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            },
+            body: JSON.stringify({ gameId })
+        }).catch(err => console.error("last-played error:", err));
+    }
+
+    console.log("Opening game:", gameId);
+
+    const url = routes[gameId];
+
+    if (!url) {
+        alert("Game not found");
+        return;
+    }
+
+    // slight delay (optional, but safe)
+    setTimeout(() => {
+        window.location.href = url;
+    }, 80);
 }
 
 // INPUT typing search
