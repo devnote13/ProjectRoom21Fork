@@ -1,6 +1,6 @@
 # 🔥 SnowFall Casino
 
-### Note: There are a lot of things i did not add games ect. I got tried and bored if your here please fork it and write and games ect for it hmmm bye <exit> 
+### Note: There are a lot of things i did not add games ect. I got tired and bored if your here please fork it and write games ect. for it hmmm bye <exit> 
 "
 A full-stack casino-style web application featuring user accounts, virtual chips, games, and an admin dashboard.
 
@@ -170,12 +170,6 @@ Implemented:
 - Role verification
 - Authorization headers
 - Server-side permission checks
-
----
-
-# 📸 Screenshots
-
-(Add screenshots here)
 
 ---
 
